@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "id": "io.github.nouseridz.athaan",
+  "name": "Athaan",
+  "version": "2.0.0",
+  "author": "nouseridz",
+  "license": "MIT",
+  "description": "Prayer times with adhan playback, in the Omarchy bar",
+  "kinds": ["bar-widget", "service"],
+  "keepLoaded": true,
+  "entryPoints": {
+    "barWidget": "BarWidget.qml",
+    "service": "Service.qml"
+  },
+  "barWidget": {
+    "displayName": "Athaan",
+    "description": "Next prayer and a countdown; click for the day's schedule and settings",
+    "category": "System",
+    "allowMultiple": false,
+    "defaultSection": "right"
+  }
+}
