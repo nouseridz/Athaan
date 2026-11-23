@@ -506,7 +506,15 @@ onStreamFinished: {
                     places = Core.parsePlaces(JSON.parse(text))
                 } catch (e) {}
                 if (!places.length) {
-                    root.detectLocation()
+                    // A manual choice must never silently fall back to IP
+                    // detection: that would hand the public IP and this UA to
+                    // ipapi.co, and overwrite a saved manual selection.
+                    if (root.config.location.auto) {
+                        root.detectLocation()
+                    } else {
+                        root.status = "error"
+                        root.statusDetail = "Could not resolve the saved city. Search for a city, or Detect automatically."
+                    }
                     return
                 }
                 var place = places[0]
@@ -526,7 +534,13 @@ onStreamFinished: {
             }
         }
         onExited: function(exitCode, exitStatus) {
-            if (exitCode !== 0 && !root.hasLocation) root.detectLocation()
+            if (exitCode !== 0 && !root.hasLocation) {
+                if (root.config.location.auto) root.detectLocation()
+                else {
+                    root.status = "error"
+                    root.statusDetail = "Could not resolve the saved city. Search for a city, or Detect automatically."
+                }
+            }
         }
     }
 
